@@ -24,7 +24,7 @@ export const register = async (req, res) => {
       message: "Registration successfull!",
     });
   } catch (error) {
-    res.json({ error });
+    res.json({ message: "API error", error });
   }
 };
 
@@ -36,7 +36,7 @@ export const login = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: "User doesn't exits in database. Please first register",
+        message: "User doesn't exits!",
       });
     }
 
@@ -45,7 +45,7 @@ export const login = async (req, res) => {
     if (!checkPassword) {
       return res
         .status(403)
-        .json({ message: "username or password may be wrong" });
+        .json({ message: "Username or password may be wrong!" });
     }
 
     return res.status(200).json({ message: "Login Successfull" });
