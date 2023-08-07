@@ -3,36 +3,39 @@ import { User } from "../schema/User.js";
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, username, password } = req.body;
-    console.log(firstName, lastName);
+    const { firstName, lastName, email, password } = req.body;
+    console.log(firstName, lastName, email);
 
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ email });
+    console.log(user);
 
     if (user) {
       return res.status(401).json({ message: "User already exits!" });
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+      console.log(user);
+
+      res.status(200).json({
+        message: "Registration successfull!",
+      });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user = await User.create({
-      firstName,
-      lastName,
-      username,
-      password: hashedPassword,
-    });
-
-    res.status(200).json({
-      message: "Registration successfull!",
-    });
   } catch (error) {
+    console.log(error);
     res.json({ message: "API error", error });
   }
 };
 
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({
@@ -45,7 +48,7 @@ export const login = async (req, res) => {
     if (!checkPassword) {
       return res
         .status(403)
-        .json({ message: "Username or password may be wrong!" });
+        .json({ message: "email or password may be wrong!" });
     }
 
     return res.status(200).json({ message: "Login Successfull" });
