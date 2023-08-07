@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { dbConnect } from "./config/dbConnection.js";
 import userRoutes from "./routes/user.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import { errorMiddleware } from "./middlewares/errorHanlder.js";
 
 dotenv.config();
 
@@ -15,6 +17,9 @@ app.use(express.json());
 // this will allow to any CORS to access database
 app.use(cors());
 
+// cookieParser will parse the cookie from the requeset
+app.use(cookieParser());
+
 // routes
 app.use("/api/v1/users", userRoutes);
 
@@ -23,3 +28,6 @@ app.listen(PORT, () => {
 });
 
 dbConnect();
+
+
+app.use(errorMiddleware);
