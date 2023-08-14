@@ -22,4 +22,4 @@ const Schema = mongoose.Schema(
   { timestamps: true }
 );
 
-export const Admin = mongoose.model("admin", Schema);
+export const Admin = mongoose.model("admins", Schema);
