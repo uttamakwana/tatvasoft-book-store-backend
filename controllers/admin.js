@@ -67,7 +67,9 @@ export const login = async (req, res, next) => {
       return next(new ErrorHanlder("email or password may be wrong", 403));
     }
 
-    generateCookie(admin, res, "Login successfull", 201);
+    generateCookie(admin, res, "Login successfull", 201, req);
+    console.log("login API")
+    console.log(req.cookies);
     // return res.status(200).json({ message: "Login Successfull" });
   } catch (error) {
     // res.status(401).json({ error });
@@ -77,6 +79,8 @@ export const login = async (req, res, next) => {
 
 export const me = async (req, res, next) => {
   try {
+    console.log("me API")
+    console.log(req.cookies);
     const admin = req.body;
     res.json({ success: true, admin })
   }
