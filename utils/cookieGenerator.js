@@ -4,12 +4,6 @@ import jwt from "jsonwebtoken";
 
 const cookieGenerator = (user, res, message, statusCode, req) => {
   const token = jwt.sign({ _id: user._id.toString() }, process.env.SECRET_KEY);
-  // console.log(token, user._id);
-  console.log("token");
-  console.log(token);
-
-  console.log("admin id");
-  console.log(user._id.toString());
   res
     .status(statusCode)
     .cookie("authToken", token, {
@@ -20,8 +14,8 @@ const cookieGenerator = (user, res, message, statusCode, req) => {
     })
     .json({ success: true, message: message });
 
-  console.log("cookie");
   console.log(Math.round(Math.random() * 100), "number");
+  console.log("cookie generator");
   console.log(req.cookies);
 };
 
